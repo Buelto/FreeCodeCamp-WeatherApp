@@ -1,0 +1,105 @@
+
+.content {
+    background: url(newlight.jpg) no-repeat center;
+    overflow: hidden;
+    height: 345px;
+    width: 225px;
+    position: relative;
+    margin: 130px 0px 0px 45px;
+}
+
+.picSpace img {
+    position: absolute;
+}
+
+.title {
+    font-family: 'Flamenco', cursive;
+    color: floralwhite;
+    text-shadow: 2px 2px 5px #191970;
+}
+
+h1.title {
+    font-weight: 300;
+}
+
+h3.title {
+    margin-top: -2px;
+    font-size: 20px;
+}
+
+
+/*-- to be added later
+
+
+video#bgvid {
+    margin:-125px 0px 0px -20px;
+    position: absolute;
+    width: 260px;
+    height: 400px;
+    
+}--*/
+
+p {
+    font-size: 14px;
+    color: white;
+    font-family: 'Asap', sans-serif;
+}
+
+#fahrenheit {padding-left:60px;
+    margin-bottom: -10px;
+    font-size: 45px;
+    font-family: 'Josefin Sans', sans-serif;
+    Font-weight: 300;
+}
+
+.weather {
+     text-indent: 5px;
+}
+
+#conditions {
+    text-indent: 10px;
+}
+
+.weather p {
+    display: inline-block;
+    color: #656565;
+}
+
+.sun1  {
+     text-indent: 10px;
+ 
+}
+
+.sun1  p {
+    display: inline-block;
+    text-indent: 22px;
+  
+ 
+}
+
+.sun2 {
+     text-indent: 10px;
+  
+}
+
+.sun2 p {
+    display: inline-block;
+     text-indent: 20px;
+  
+}
+.sun1 i,
+.sun2 i {
+    font-size: 24px;
+}
+
+
+.white {
+    background: rgba(255, 250, 240, .4);
+    margin: 20px 10px 0px 10px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 20px black;
+}
+
+.wi {
+    font-size: 40px;
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <!--font-->
+    <link href="https://fonts.googleapis.com/css?family=Asap:400,400i|Flamenco|Josefin+Sans:300,400" rel="stylesheet">
+    <!--css-->
+    <link rel="stylesheet" type="text/css" href="weatherApp.css">
+    <link rel="stylesheet" type="text/css" href="weather-icons-master/css/weather-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- js-->
+    <script type="text/javascript" src="weatherApp.js"></script>
+    <!--jquery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+    <title>Skypiea Weather App</title>
+</head>
+
+<body>
+    <div class="picSpace container-fluid">
+       
+        <img src="blank_phone.png">
+
+        <div class="content ">
+            <!-- <video class="container" id="bgvid" src="Sky%20-%203186.mp4"></video>-->
+            <h1 class="text-center title">Skypiea</h1>
+            <h3 class="text-center title">Today's weather app</h3>
+            <p id="location" class="text-center">location</p>
+            <div class="white">
+                <div class="text-center">
+                    <p id="fahrenheit"> current temp</p>
+                    </div>
+                     <div class="weather ">
+                    <i class="wi wi-day-cloudy"></i>
+                    <p id="conditions">conditions</p>
+                </div>
+                <div class="sun1">
+                   <i class="wi wi-sunrise"></i>
+                    <p id="sunrise">sunrise</p>
+                     </div>
+                    <div class="sun2 ">
+                    <i class="wi wi-sunset"></i>
+                    <p id="sunset">sunset</p>
+                </div>
+            
+        </div>
+    </div>
+ </div>
+
+
+
+
+    <script>
+        $(document).ready(function () {
+
+            $(".title").hide(0).delay(500).fadeIn(3000);
+        });
+
+        // if geolocation can be accessed on the browser
+        if (navigator.geolocation) {
+            /*--the run the geolocation code that has a structure of navigator.geolocation.getCurrentPosition(success[, error[, options]])
+            this is refernced from https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
+
+            the success portion of the code is a function. in this case its function is function myLocation(postion){-----} calling to display location at the end of the function before closing
+            --*/
+            navigator.geolocation.getCurrentPosition(
+
+                function myLocation(position) {
+                    var lat = position.coords.latitude;
+                    var long = position.coords.longitude;
+
+                    // side note: the below call the latitude and longitude and places it in the #location
+                    //$("#location").html("latitude: " + lat + "<br>longitude: " + long);
+
+                    /*-- syntax for using api -- $(selector).getJSON(url,data,success(data,status,xhr)) --as provided by -- http://www.w3schools.com/jquery/ajax_getjson.asp--*/
+                    // the below is to display the address as city and country using the yahoo API
+                    /*--this site helped me figure out how to link my "lat" and "long" to the yahoo api--https://stackoverflow.com/questions/how-to-answer?questionid=35220361&reason=thankyou&s=f893fda3-48a5-4d8d-9531-9bf5d65d2be0--*/
+                    var api = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.places%20WHERE%20text%3D%22(" + lat + "%2C" + long + ")%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+
+                    $(document).ready(function () {
+                        $.getJSON(api, function (json) {
+                            /*-- this code reveals all of the infomation in the JSON --$("#location").html(JSON.stringify(json))--*/
+                            // parsing  the information to only pull out what I need
+                            var fahrenheit = Math.round(json.query.results.channel.item.condition.temp);
+
+                            var celsius = Math.round((fahrenheit - 32) / 1.8);
+                            var conditions = json.query.results.channel.item.condition.text;
+                            var city = json.query.results.channel.location.city;
+                            var state = json.query.results.channel.location.region;
+                            var sunrise = json.query.results.channel.astronomy.sunrise;
+                            var sunset = json.query.results.channel.astronomy.sunset;
+                            var location = city + "," + state;
+                            var swap = true;
+
+                            $("#location").html(location);
+                            $("#state").html(state);
+                            $("#sunrise").html("Sunrise: " + sunrise);
+                            $("#sunset").html("Sunset: " + sunset);
+                            $("#conditions").html(conditions);
+                            $("#celsius").html(celsius + "&#730;" + "C");
+                            $("#fahrenheit").html(fahrenheit + "&#730;" + "F");
+
+                            $(document).ready(function () {
+                                $("#fahrenheit").click(function () {
+                                    if (swap === false) {
+                                        $("#fahrenheit").html(celsius + "&#730;" + "C");
+                                        swap = true;
+                                    } else {
+                                        $("#fahrenheit").html(fahrenheit + "&#730;" + "F");
+                                        swap = false;
+                                    }
+                                });
+                            });
+                        });
+                    });
+                });
+        }
+    </script>
+
+</body>
+
+</html>
